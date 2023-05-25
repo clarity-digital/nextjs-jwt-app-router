@@ -9,14 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "13.4.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sass": "^1.62.1"
+  },
+  "devDependencies": {
     "@types/node": "20.2.3",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
-    "next": "13.4.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "prettier": "^2.8.8",
     "typescript": "5.0.4"
   }
 }
