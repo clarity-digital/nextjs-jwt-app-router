@@ -1,3 +1,4 @@
+import AuthProvider from "@/components/AuthProvider";
 import "@/styles/index.scss";
 
 export const metadata = {
@@ -12,7 +13,9 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <AuthProvider>
+        <body>{children}</body>
+      </AuthProvider>
     </html>
   );
 }
