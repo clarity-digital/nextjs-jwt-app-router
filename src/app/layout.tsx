@@ -1,3 +1,4 @@
+import AppNavigation from "@/components/AppNavigation";
 import AuthProvider from "@/components/AuthProvider";
 import "@/styles/index.scss";
 
@@ -14,7 +15,11 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <AuthProvider>
-        <body>{children}</body>
+        <body>
+          <AppNavigation />
+
+          {children}
+        </body>
       </AuthProvider>
     </html>
   );
