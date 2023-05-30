@@ -22,7 +22,7 @@ export default function LoginForm({ callbackUrl = "/" }: Props) {
       <input
         name="email"
         type="email"
-        defaultValue="johndoe@example.com"
+        defaultValue="sjors@avocado-media.nl"
       />
 
       <label>Password</label>

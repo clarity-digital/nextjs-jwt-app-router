@@ -5,7 +5,7 @@ export default function Page() {
     <main>
       <h1>Login</h1>
 
-      <LoginForm />
+      <LoginForm callbackUrl="/dashboard" />
     </main>
   );
 }
