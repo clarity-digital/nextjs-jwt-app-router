@@ -9,6 +9,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: parseInt(process.env.NEXTAUTH_JWT_AGE!) || 1209600,
   },
   providers: [
     CredentialsProvider({
@@ -25,7 +26,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const response = await fetch(process.env.BACKEND_API_URL + "/api/login", {
+          const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -84,7 +85,7 @@ export const authOptions: NextAuthOptions = {
 
 async function refreshAccessToken(token: JWT) {
   try {
-    const response = await fetch(process.env.BACKEND_API_URL + "/api/refresh", {
+    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/refresh", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

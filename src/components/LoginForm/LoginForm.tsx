@@ -1,17 +1,17 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
-type Props = {
-  callbackUrl?: string;
-};
+export default function LoginForm() {
+  const searchParams = useSearchParams();
 
-export default function LoginForm({ callbackUrl = "/" }: Props) {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const credentials = Object.fromEntries(formData);
+    const callbackUrl = searchParams.get("callbackUrl") || "/";
 
     signIn("credentials", { ...credentials, callbackUrl });
   }

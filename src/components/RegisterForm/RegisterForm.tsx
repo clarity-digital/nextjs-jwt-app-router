@@ -21,7 +21,7 @@ export default function RegisterForm() {
       <input
         name="email"
         type="email"
-        defaultValue="sjors@avocado-media.nl"
+        defaultValue="johndoe@avocado-media.nl"
       />
 
       <label>Password</label>

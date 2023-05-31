@@ -7,7 +7,9 @@ export async function middleware(request: NextRequest) {
   const isGuestRoute = guestRoutes.some((route) => request.nextUrl.pathname.startsWith(route));
 
   if (!token && isAuthRoute) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const redirectUrl = new URL("/login", request.url);
+    redirectUrl.searchParams.set("callbackUrl", request.nextUrl.href);
+    return NextResponse.redirect(redirectUrl);
   }
 
   if (token && isGuestRoute) {
