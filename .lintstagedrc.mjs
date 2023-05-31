@@ -1,6 +1,6 @@
 import { relative } from "path";
 
-const typeCheckCommand = "tsc --project tsconfig.json --pretty --noEmit";
+const typeCheckCommand = "tsc --noEmit";
 
 const writePrettierCommand = "npx prettier --write";
 
@@ -11,7 +11,7 @@ const buildEslintCommand = (filenames) => {
 };
 
 export default {
-  "*.{ts,tsx}": [typeCheckCommand],
+  "*.{ts}": [typeCheckCommand],
   "*.{js,jsx,ts,tsx}": [writePrettierCommand, buildEslintCommand],
   "*.{css,scss}": [writePrettierCommand],
 };

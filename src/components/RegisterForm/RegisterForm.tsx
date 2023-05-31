@@ -5,7 +5,8 @@ export default function RegisterForm() {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    console.log(Object.fromEntries(formData));
+
+    return formData;
   }
 
   return (
