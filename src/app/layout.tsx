@@ -1,3 +1,5 @@
+import AppNavigation from "@/components/AppNavigation";
+import AuthProvider from "@/components/AuthProvider";
 import "@/styles/index.scss";
 
 export const metadata = {
@@ -12,7 +14,13 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <AuthProvider>
+        <body>
+          <AppNavigation />
+
+          {children}
+        </body>
+      </AuthProvider>
     </html>
   );
 }
