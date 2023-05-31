@@ -1,12 +1,43 @@
 "use client";
 
+import authService from "@/services/authService";
+import { signIn } from "next-auth/react";
+
 export default function RegisterForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
+    try {
+      const formData = new FormData(event.currentTarget);
+      const response = await authService().register(formData);
 
-    return formData;
+      if (!response.ok) {
+        throw response;
+      }
+
+      const credentials = {
+        email: formData.get("email"),
+        password: formData.get("password"),
+      };
+
+      signIn("credentials", credentials);
+    } catch (error) {
+      if (error instanceof Response) {
+        const response = await error.json();
+
+        if (!response.errors) {
+          throw error;
+        }
+
+        return Object.keys(response.errors).map((errorKey) => {
+          const input = document.querySelector(`[name="${errorKey}"]`) as HTMLInputElement;
+          input.setCustomValidity(response.errors[errorKey]);
+          input.reportValidity();
+        });
+      }
+
+      throw new Error("An error has occurred during registration request");
+    }
   }
 
   return (
@@ -22,7 +53,7 @@ export default function RegisterForm() {
       <input
         name="email"
         type="email"
-        defaultValue="johndoe@avocado-media.nl"
+        defaultValue="john@avocado-media.nl"
       />
 
       <label>Password</label>

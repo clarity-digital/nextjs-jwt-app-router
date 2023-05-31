@@ -1,4 +1,5 @@
 import jwt from "@/helpers/jwt";
+import authService from "@/services/authService";
 import type { NextAuthOptions, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -26,16 +27,11 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: credentials?.email,
-              password: credentials?.password,
-            }),
-          });
+          const response = await authService().login(credentials);
+
+          if (!response.ok) {
+            throw response;
+          }
 
           const data: { user: User; access_token: string } = await response.json();
 
@@ -45,7 +41,11 @@ export const authOptions: NextAuthOptions = {
 
           return { ...data.user, accessToken: data?.access_token };
         } catch (error) {
-          throw error;
+          if (error instanceof Response) {
+            return null;
+          }
+
+          throw new Error("An error has occurred during login request");
         }
       },
     }),
@@ -81,18 +81,17 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  events: {
+    async signOut({ token }) {
+      await authService().logout(token.accessToken);
+    },
+  },
   debug: process.env.NODE_ENV === "development",
 };
 
 async function refreshAccessToken(token: JWT) {
   try {
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/refresh", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer" + token.accessToken,
-      },
-    });
+    const response = await authService().refresh(token.accessToken);
 
     if (!response.ok) throw response;
 

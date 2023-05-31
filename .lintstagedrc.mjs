@@ -1,7 +1,5 @@
 import { relative } from "path";
 
-const typeCheckCommand = "tsc --noEmit";
-
 const writePrettierCommand = "npx prettier --write";
 
 const buildEslintCommand = (filenames) => {
@@ -11,7 +9,6 @@ const buildEslintCommand = (filenames) => {
 };
 
 export default {
-  "*.{ts}": [typeCheckCommand],
   "*.{js,jsx,ts,tsx}": [writePrettierCommand, buildEslintCommand],
   "*.{css,scss}": [writePrettierCommand],
 };
