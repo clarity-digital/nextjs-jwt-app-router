@@ -1,20 +1,15 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import type { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 
-export function SignInButton() {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <>...</>;
+export function SignInButton({ session }: { session: Session | null }) {
+  if (!session) {
+    return <Link href="/login">Sign in</Link>;
   }
 
-  if (status === "authenticated") {
-    return <Link href="/dashboard">{session?.user?.name}</Link>;
-  }
-
-  return <Link href="/login">Sign in</Link>;
+  return <Link href="/dashboard">{session?.user?.name}</Link>;
 }
 
 export function SignOutButton() {
