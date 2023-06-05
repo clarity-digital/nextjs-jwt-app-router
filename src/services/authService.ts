@@ -53,11 +53,25 @@ function authService() {
     return response;
   }
 
+  async function requestPasswordReset(formData: FormData): Promise<Response> {
+    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/forgot-password", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Object.fromEntries(formData)),
+    });
+
+    return response;
+  }
+
   return {
     login,
     register,
     refresh,
     logout,
+    requestPasswordReset,
   };
 }
 

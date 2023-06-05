@@ -9,6 +9,7 @@ export default function Page() {
       <LoginForm />
 
       <Link href="/register">Register</Link>
+      <Link href="/forgot-password">Forgot password</Link>
     </main>
   );
 }
