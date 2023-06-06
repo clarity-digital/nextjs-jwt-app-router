@@ -19,22 +19,24 @@ export default function LoginForm() {
 
   return (
     <>
-      <form onSubmit={(event) => handleSubmit(event)}>
-        <label>Email</label>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
         <input
+          id="email"
           name="email"
           type="email"
-          defaultValue="sjors@avocado-media.nl"
+          defaultValue="john@avocado-media.nl"
         />
 
-        <label>Password</label>
+        <label htmlFor="password">Password</label>
         <input
+          id="password"
           name="password"
           type="password"
           defaultValue="password"
         />
 
-        <button type="submit">Sign in</button>
+        <button type="submit">Login</button>
       </form>
 
       <FormError error={error} />

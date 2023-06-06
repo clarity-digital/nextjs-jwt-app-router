@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function SignInButton({ session }: { session: Session | null }) {
   if (!session) {
-    return <Link href="/login">Sign in</Link>;
+    return <Link href="/login">Login</Link>;
   }
 
   return <Link href="/dashboard">{session?.user?.name}</Link>;

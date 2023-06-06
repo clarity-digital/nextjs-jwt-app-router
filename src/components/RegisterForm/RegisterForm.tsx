@@ -41,30 +41,34 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={(event) => handleSubmit(event)}>
-      <label>name</label>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="name">Name</label>
       <input
+        id="name"
         name="name"
         type="text"
         defaultValue="John Doe"
       />
 
-      <label>Email</label>
+      <label htmlFor="email">Email</label>
       <input
+        id="email"
         name="email"
         type="email"
         defaultValue="john@avocado-media.nl"
       />
 
-      <label>Password</label>
+      <label htmlFor="password">Password</label>
       <input
+        id="password"
         name="password"
         type="password"
         defaultValue="password"
       />
 
-      <label>Password confirmation</label>
+      <label htmlFor="password_confirmation">Password confirmation</label>
       <input
+        id="password_confirmation"
         name="password_confirmation"
         type="password"
         defaultValue="password"

@@ -1,18 +1,26 @@
 "use client";
 
 import authService from "@/services/authService";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function ForgotPasswordForm() {
+export default function PasswordResetForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await authService().requestPasswordReset(formData);
+      formData.set("token", searchParams.get("token") || "");
+
+      const response = await authService().passwordReset(formData);
 
       if (!response.ok) {
         throw response;
       }
+
+      router.push("/login");
     } catch (error) {
       if (error instanceof Response) {
         const response = await error.json();
@@ -28,7 +36,7 @@ export default function ForgotPasswordForm() {
         });
       }
 
-      throw new Error("An error has occurred during forgot password request");
+      throw new Error("An error has occurred during password reset request");
     }
   }
 
@@ -39,10 +47,26 @@ export default function ForgotPasswordForm() {
         id="email"
         name="email"
         type="email"
-        defaultValue="john@avocado-media.nl"
+        defaultValue={searchParams.get("email") || ""}
       />
 
-      <button type="submit">Send</button>
+      <label htmlFor="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        defaultValue="password"
+      />
+
+      <label htmlFor="password_confirmation">Password confirmation</label>
+      <input
+        id="password_confirmation"
+        name="password_confirmation"
+        type="password"
+        defaultValue="password"
+      />
+
+      <button type="submit">Reset password</button>
     </form>
   );
 }

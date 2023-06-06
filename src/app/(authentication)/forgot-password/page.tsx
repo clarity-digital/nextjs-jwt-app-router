@@ -8,7 +8,7 @@ export default function Page() {
 
       <ForgotPasswordForm />
 
-      <Link href="/login">Inloggen</Link>
+      <Link href="/login">Login</Link>
     </main>
   );
 }
