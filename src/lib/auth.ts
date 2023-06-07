@@ -101,7 +101,7 @@ async function refreshAccessToken(token: JWT) {
     return {
       ...token,
       accessToken: refreshedAccessToken.access_token,
-      accessTokenExpires: exp,
+      exp,
     };
   } catch (error) {
     return {
