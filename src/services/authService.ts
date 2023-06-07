@@ -1,13 +1,12 @@
+import fetchClient from "@/lib/fetch-client";
+
 function authService() {
   async function login(
     credentials: { email?: string; password?: string } | undefined
   ): Promise<Response> {
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/login", {
+    const response = await fetchClient({
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/login",
       body: JSON.stringify(credentials),
     });
 
@@ -15,12 +14,9 @@ function authService() {
   }
 
   async function register(formData: FormData): Promise<Response> {
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/register", {
+    const response = await fetchClient({
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/register",
       body: JSON.stringify(Object.fromEntries(formData)),
     });
 
@@ -28,38 +24,29 @@ function authService() {
   }
 
   async function refresh(token: string): Promise<Response> {
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/refresh", {
+    const response = await fetchClient({
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer" + token,
-      },
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/refresh",
+      token: token,
     });
 
     return response;
   }
 
   async function logout(token: string): Promise<Response> {
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/logout", {
+    const response = await fetchClient({
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer" + token,
-      },
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/logout",
+      token: token,
     });
 
     return response;
   }
 
   async function requestPasswordReset(formData: FormData): Promise<Response> {
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/forgot-password", {
+    const response = await fetchClient({
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/forgot-password",
       body: JSON.stringify(Object.fromEntries(formData)),
     });
 
@@ -67,12 +54,9 @@ function authService() {
   }
 
   async function passwordReset(formData: FormData): Promise<Response> {
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/reset-password", {
+    const response = await fetchClient({
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/reset-password",
       body: JSON.stringify(Object.fromEntries(formData)),
     });
 

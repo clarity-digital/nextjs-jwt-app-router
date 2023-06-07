@@ -14,7 +14,8 @@
     "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "20.2.3",
