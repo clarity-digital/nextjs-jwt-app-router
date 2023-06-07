@@ -1,18 +1,14 @@
 import { SignInButton } from "@/components/AuthButton";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import Link from "next/link";
 
-export default async function AppNavigation() {
-  const session = await getServerSession(authOptions);
-
+export default function AppNavigation() {
   return (
     <nav>
       <Link href="/">Logo</Link>
 
       <ul>
         <li>
-          <SignInButton session={session} />
+          <SignInButton />
         </li>
       </ul>
     </nav>

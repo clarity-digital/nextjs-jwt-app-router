@@ -16,7 +16,6 @@ export default function RootLayout({ children }: Props) {
     <html lang="en">
       <AuthProvider>
         <body>
-          {/* @ts-expect-error Server Component */}
           <AppNavigation />
 
           {children}
