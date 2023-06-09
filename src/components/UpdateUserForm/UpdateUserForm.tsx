@@ -1,6 +1,6 @@
 "use client";
 
-import Input from "@/components/Input";
+import Input from "@/components/ui/Input";
 import authService from "@/services/authService";
 import type { User } from "next-auth";
 import { useSession } from "next-auth/react";

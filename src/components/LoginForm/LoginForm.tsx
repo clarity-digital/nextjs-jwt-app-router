@@ -1,6 +1,6 @@
 "use client";
 
-import Input from "@/components/Input";
+import Input from "@/components/ui/Input";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
