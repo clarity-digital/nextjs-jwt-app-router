@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 type Props = {
   method?: string;
@@ -8,18 +8,36 @@ type Props = {
 };
 
 async function fetchClient({ method = "GET", url, body = "", token }: Props) {
-  const session = await getSession();
-  const accessToken = token || session?.accessToken;
+  try {
+    const session = await getSession();
+    const accessToken = token || session?.accessToken;
 
-  return await fetch(url.toString(), {
-    method: method,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer" + accessToken,
-    },
-    body: body || undefined,
-  });
+    const response = await fetch(url.toString(), {
+      method: method,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer" + accessToken,
+      },
+      body: body || undefined,
+    });
+
+    if (!response.ok) {
+      throw response;
+    }
+
+    return response;
+  } catch (error) {
+    if (error instanceof Response) {
+      if (error.status === 401 || error.status === 403) {
+        signOut();
+      }
+
+      throw error;
+    }
+
+    throw new Error("fetchClient failed", { cause: error });
+  }
 }
 
 export default fetchClient;
