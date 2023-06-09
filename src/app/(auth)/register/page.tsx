@@ -1,4 +1,4 @@
-import RegisterForm from "@/components/RegisterForm";
+import RegisterForm from "@/components/register-form";
 import Link from "next/link";
 
 export default function Page() {
@@ -8,7 +8,11 @@ export default function Page() {
 
       <RegisterForm />
 
-      <Link href="/login">Login</Link>
+      <ul>
+        <li>
+          <Link href="/login">Login</Link>
+        </li>
+      </ul>
     </main>
   );
 }

@@ -1,7 +1,7 @@
-import { SignInButton } from "@/components/AuthButton";
+import { SignInButton } from "@/components/auth-button";
 import Link from "next/link";
 
-export default function AppNavigation() {
+export function AppNavigation() {
   return (
     <nav>
       <Link href="/">Logo</Link>

@@ -1,4 +1,4 @@
-import LoginForm from "@/components/LoginForm";
+import LoginForm from "@/components/login-form";
 import Link from "next/link";
 
 export default function Page() {
@@ -8,8 +8,14 @@ export default function Page() {
 
       <LoginForm />
 
-      <Link href="/register">Register</Link>
-      <Link href="/forgot-password">Forgot password</Link>
+      <ul>
+        <li>
+          <Link href="/register">Register</Link>
+        </li>
+        <li>
+          <Link href="/forgot-password">Forgot password</Link>
+        </li>
+      </ul>
     </main>
   );
 }

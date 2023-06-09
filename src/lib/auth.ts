@@ -1,5 +1,5 @@
 import jwt from "@/helpers/jwt";
-import authService from "@/services/authService";
+import authService from "@/services/auth";
 import type { NextAuthOptions, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";

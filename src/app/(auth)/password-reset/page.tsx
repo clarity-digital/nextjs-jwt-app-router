@@ -1,4 +1,4 @@
-import PasswordResetForm from "@/components/PasswordResetForm";
+import PasswordResetForm from "@/components/password-reset-form";
 import Link from "next/link";
 
 export default function Page() {
@@ -8,7 +8,11 @@ export default function Page() {
 
       <PasswordResetForm />
 
-      <Link href="/login">Login</Link>
+      <ul>
+        <li>
+          <Link href="/login">Login</Link>
+        </li>
+      </ul>
     </main>
   );
 }

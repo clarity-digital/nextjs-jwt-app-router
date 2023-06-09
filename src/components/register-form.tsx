@@ -1,27 +1,27 @@
 "use client";
 
-import Input from "@/components/ui/Input";
-import authService from "@/services/authService";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import authService from "@/services/auth";
+import { signIn } from "next-auth/react";
 
-export default function PasswordResetForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
+export default function RegisterForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
       const formData = new FormData(event.currentTarget);
-      formData.set("token", searchParams.get("token") || "");
-
-      const response = await authService().passwordReset(formData);
+      const response = await authService().register(formData);
 
       if (!response.ok) {
         throw response;
       }
 
-      router.push("/login");
+      const credentials = {
+        email: formData.get("email"),
+        password: formData.get("password"),
+      };
+
+      signIn("credentials", credentials);
     } catch (error) {
       if (error instanceof Response) {
         const response = await error.json();
@@ -37,18 +37,26 @@ export default function PasswordResetForm() {
         });
       }
 
-      throw new Error("An error has occurred during password reset request");
+      throw new Error("An error has occurred during registration request");
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
+      <label htmlFor="name">Name</label>
+      <Input
+        id="name"
+        name="name"
+        type="text"
+        defaultValue="John Doe"
+      />
+
       <label htmlFor="email">Email</label>
       <Input
         id="email"
         name="email"
         type="email"
-        defaultValue={searchParams.get("email") || ""}
+        defaultValue="john@avocado-media.nl"
       />
 
       <label htmlFor="password">Password</label>
@@ -67,7 +75,7 @@ export default function PasswordResetForm() {
         defaultValue="password"
       />
 
-      <button type="submit">Reset password</button>
+      <button type="submit">Register</button>
     </form>
   );
 }

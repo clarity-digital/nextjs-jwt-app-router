@@ -1,5 +1,5 @@
-import AppNavigation from "@/components/AppNavigation";
-import AuthProvider from "@/components/AuthProvider";
+import { AppNavigation } from "@/components/app-navigation";
+import { AuthProvider } from "@/components/auth-provider";
 import "@/styles/index.scss";
 
 export const metadata = {

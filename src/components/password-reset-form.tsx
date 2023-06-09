@@ -1,19 +1,27 @@
 "use client";
 
-import Input from "@/components/ui/Input";
-import authService from "@/services/authService";
+import { Input } from "@/components/ui/input";
+import authService from "@/services/auth";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function ChangePasswordForm() {
+export default function PasswordResetForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await authService().changePassword(formData);
+      formData.set("token", searchParams.get("token") || "");
+
+      const response = await authService().passwordReset(formData);
 
       if (!response.ok) {
         throw response;
       }
+
+      router.push("/login");
     } catch (error) {
       if (error instanceof Response) {
         const response = await error.json();
@@ -29,12 +37,20 @@ export default function ChangePasswordForm() {
         });
       }
 
-      throw new Error("An error has occurred during forgot password request");
+      throw new Error("An error has occurred during password reset request");
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
+      <Input
+        id="email"
+        name="email"
+        type="email"
+        defaultValue={searchParams.get("email") || ""}
+      />
+
       <label htmlFor="password">Password</label>
       <Input
         id="password"
@@ -51,7 +67,7 @@ export default function ChangePasswordForm() {
         defaultValue="password"
       />
 
-      <button type="submit">Change password</button>
+      <button type="submit">Reset password</button>
     </form>
   );
 }

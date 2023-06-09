@@ -1,4 +1,4 @@
-export default function Input({ ...props }) {
+export function Input({ ...props }) {
   return (
     <input
       onChange={(e) => e.currentTarget.setCustomValidity("")}

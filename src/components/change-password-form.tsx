@@ -1,15 +1,15 @@
 "use client";
 
-import Input from "@/components/ui/Input";
-import authService from "@/services/authService";
+import { Input } from "@/components/ui/input";
+import authService from "@/services/auth";
 
-export default function ForgotPasswordForm() {
+export function ChangePasswordForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await authService().requestPasswordReset(formData);
+      const response = await authService().changePassword(formData);
 
       if (!response.ok) {
         throw response;
@@ -35,15 +35,23 @@ export default function ForgotPasswordForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Email</label>
+      <label htmlFor="password">Password</label>
       <Input
-        id="email"
-        name="email"
-        type="email"
-        defaultValue="john@avocado-media.nl"
+        id="password"
+        name="password"
+        type="password"
+        defaultValue="password"
       />
 
-      <button type="submit">Send</button>
+      <label htmlFor="password_confirmation">Password confirmation</label>
+      <Input
+        id="password_confirmation"
+        name="password_confirmation"
+        type="password"
+        defaultValue="password"
+      />
+
+      <button type="submit">Change password</button>
     </form>
   );
 }

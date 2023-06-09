@@ -1,4 +1,4 @@
-import { SignOutButton } from "@/components/AuthButton";
+import { SignOutButton } from "@/components/auth-button";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 

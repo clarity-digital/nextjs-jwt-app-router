@@ -1,6 +1,6 @@
-import { SignOutButton } from "@/components/AuthButton";
-import ChangePasswordForm from "@/components/ChangePasswordForm";
-import UpdateUserForm from "@/components/UpdateUserForm";
+import { SignOutButton } from "@/components/auth-button";
+import { ChangePasswordForm } from "@/components/change-password-form";
+import UpdateUserForm from "@/components/update-user-form";
 
 export default function Page() {
   return (
