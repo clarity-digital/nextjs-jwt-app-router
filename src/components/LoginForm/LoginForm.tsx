@@ -1,5 +1,6 @@
 "use client";
 
+import Input from "@/components/Input";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
@@ -21,7 +22,7 @@ export default function LoginForm() {
     <>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
-        <input
+        <Input
           id="email"
           name="email"
           type="email"
@@ -29,7 +30,7 @@ export default function LoginForm() {
         />
 
         <label htmlFor="password">Password</label>
-        <input
+        <Input
           id="password"
           name="password"
           type="password"

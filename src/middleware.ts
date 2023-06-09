@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-const authRoutes = ["/dashboard"];
+const authRoutes = ["/dashboard", "/settings"];
 const guestRoutes = ["/forgot-password", "/login", "/password-reset", "/register"];
 
 export const config = {

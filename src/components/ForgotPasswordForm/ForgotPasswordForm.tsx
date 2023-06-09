@@ -1,5 +1,6 @@
 "use client";
 
+import Input from "@/components/Input";
 import authService from "@/services/authService";
 
 export default function ForgotPasswordForm() {
@@ -35,7 +36,7 @@ export default function ForgotPasswordForm() {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="email">Email</label>
-      <input
+      <Input
         id="email"
         name="email"
         type="email"

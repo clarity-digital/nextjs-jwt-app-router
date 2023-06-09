@@ -10,6 +10,9 @@ export default function AppNavigation() {
         <li>
           <SignInButton />
         </li>
+        <li>
+          <Link href="/settings">Settings</Link>
+        </li>
       </ul>
     </nav>
   );

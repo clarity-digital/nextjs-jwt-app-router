@@ -73,6 +73,16 @@ function authService() {
     return response;
   }
 
+  async function updateUser(formData: FormData): Promise<Response> {
+    const response = await fetchClient({
+      method: "PATCH",
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/user",
+      body: JSON.stringify(Object.fromEntries(formData)),
+    });
+
+    return response;
+  }
+
   return {
     login,
     register,
@@ -81,6 +91,7 @@ function authService() {
     requestPasswordReset,
     passwordReset,
     changePassword,
+    updateUser,
   };
 }
 

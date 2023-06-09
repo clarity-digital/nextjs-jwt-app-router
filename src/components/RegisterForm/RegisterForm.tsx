@@ -1,5 +1,6 @@
 "use client";
 
+import Input from "@/components/Input";
 import authService from "@/services/authService";
 import { signIn } from "next-auth/react";
 
@@ -43,7 +44,7 @@ export default function RegisterForm() {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="name">Name</label>
-      <input
+      <Input
         id="name"
         name="name"
         type="text"
@@ -51,7 +52,7 @@ export default function RegisterForm() {
       />
 
       <label htmlFor="email">Email</label>
-      <input
+      <Input
         id="email"
         name="email"
         type="email"
@@ -59,7 +60,7 @@ export default function RegisterForm() {
       />
 
       <label htmlFor="password">Password</label>
-      <input
+      <Input
         id="password"
         name="password"
         type="password"
@@ -67,7 +68,7 @@ export default function RegisterForm() {
       />
 
       <label htmlFor="password_confirmation">Password confirmation</label>
-      <input
+      <Input
         id="password_confirmation"
         name="password_confirmation"
         type="password"

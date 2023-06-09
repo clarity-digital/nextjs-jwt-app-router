@@ -2,18 +2,25 @@
 
 import Input from "@/components/Input";
 import authService from "@/services/authService";
+import type { User } from "next-auth";
+import { useSession } from "next-auth/react";
 
-export default function ChangePasswordForm() {
+export default function UpdateUserForm() {
+  const { data: session, update } = useSession();
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await authService().changePassword(formData);
+      const response = await authService().updateUser(formData);
 
       if (!response.ok) {
         throw response;
       }
+
+      const user: User = await response.json();
+      await update(user);
     } catch (error) {
       if (error instanceof Response) {
         const response = await error.json();
@@ -29,29 +36,29 @@ export default function ChangePasswordForm() {
         });
       }
 
-      throw new Error("An error has occurred during forgot password request");
+      throw new Error("An error has occurred during update user request");
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="password">Password</label>
+      <label htmlFor="name">Name</label>
       <Input
-        id="password"
-        name="password"
-        type="password"
-        defaultValue="password"
+        id="name"
+        name="name"
+        type="text"
+        defaultValue={session?.user?.name}
       />
 
-      <label htmlFor="password_confirmation">Password confirmation</label>
+      <label htmlFor="email">Email</label>
       <Input
-        id="password_confirmation"
-        name="password_confirmation"
-        type="password"
-        defaultValue="password"
+        id="email"
+        name="email"
+        type="email"
+        defaultValue={session?.user?.email}
       />
 
-      <button type="submit">Change password</button>
+      <button type="submit">Update user</button>
     </form>
   );
 }
