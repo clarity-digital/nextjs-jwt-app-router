@@ -29,8 +29,12 @@ async function fetchClient({ method = "GET", url, body = "", token }: Props) {
     return response;
   } catch (error) {
     if (error instanceof Response) {
-      if (error.status === 401 || error.status === 403) {
+      if (error.status === 401) {
         signOut();
+      }
+
+      if (error.status === 409) {
+        window.location.href = "/";
       }
 
       throw error;

@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import "server-only";
 
 type Props = {
@@ -29,11 +30,13 @@ async function fetchServer({ method = "GET", url, body = "" }: Props) {
     return response;
   } catch (error) {
     if (error instanceof Response) {
-      if (error.status === 401 || error.status === 403) {
-        // Handle error when occurs
+      if (error.status === 401) {
+        return redirect("/login");
       }
 
-      throw error;
+      if (error.status === 409) {
+        return redirect("/");
+      }
     }
 
     throw new Error("fetchServer failed", { cause: error });
