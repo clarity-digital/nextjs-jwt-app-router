@@ -17,3 +17,13 @@ export class ForbiddenError extends Error {
     this.statusCode = 403;
   }
 }
+
+export class ConflictError extends Error {
+  public statusCode: number;
+
+  constructor(message = "Conflict") {
+    super(message);
+    this.name = "ConflictError";
+    this.statusCode = 409;
+  }
+}

@@ -2,7 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import authService from "@/services/auth";
-import type { User } from "next-auth";
 import { useSession } from "next-auth/react";
 
 export default function UpdateUserForm() {
@@ -19,8 +18,7 @@ export default function UpdateUserForm() {
         throw response;
       }
 
-      const user: User = await response.json();
-      await update(user);
+      await update();
     } catch (error) {
       if (error instanceof Response) {
         const response = await error.json();

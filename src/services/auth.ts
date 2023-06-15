@@ -73,11 +73,29 @@ function authService() {
     return response;
   }
 
+  async function getUser(token: string | undefined): Promise<Response> {
+    const response = await fetchClient({
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/user",
+      token: token,
+    });
+
+    return response;
+  }
+
   async function updateUser(formData: FormData): Promise<Response> {
     const response = await fetchClient({
       method: "PATCH",
       url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/user",
       body: JSON.stringify(Object.fromEntries(formData)),
+    });
+
+    return response;
+  }
+
+  async function requestEmailVerification(): Promise<Response> {
+    const response = await fetchClient({
+      method: "POST",
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/email/verification-notification",
     });
 
     return response;
@@ -91,7 +109,9 @@ function authService() {
     requestPasswordReset,
     passwordReset,
     changePassword,
+    getUser,
     updateUser,
+    requestEmailVerification,
   };
 }
 

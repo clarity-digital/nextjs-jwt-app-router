@@ -34,13 +34,13 @@ async function fetchClient({ method = "GET", url, body = "", token }: Props) {
       }
 
       if (error.status === 409) {
-        window.location.href = "/";
+        window.location.href = "/verify-email";
       }
 
       throw error;
     }
 
-    throw new Error("fetchClient failed", { cause: error });
+    throw new Error("Failed to fetch data", { cause: error });
   }
 }
 

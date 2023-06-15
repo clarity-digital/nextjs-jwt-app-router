@@ -1,10 +1,15 @@
 import jwt from "@/helpers/jwt";
 import authService from "@/services/auth";
+
 import type { NextAuthOptions, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions: NextAuthOptions = {
+type CallbackOptions = {
+  forceRefresh?: boolean;
+};
+
+export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions => ({
   pages: {
     signIn: "/login",
   },
@@ -52,8 +57,20 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      if (trigger === "update") {
-        return { ...token, ...session };
+      if (trigger === "update" || callbackOptions?.forceRefresh) {
+        try {
+          const response = await authService().getUser(token.accessToken);
+
+          if (!response.ok) {
+            throw response;
+          }
+
+          const user = await response.json();
+
+          return { ...token, ...session, ...user };
+        } catch (error) {
+          return { ...token, ...session };
+        }
       }
 
       if (user) {
@@ -83,6 +100,7 @@ export const authOptions: NextAuthOptions = {
       session.accessToken = token.accessToken;
       session.user.name = token.name || "";
       session.user.email = token.email || "";
+      session.user.email_verified_at = token.email_verified_at;
 
       return session;
     },
@@ -92,8 +110,7 @@ export const authOptions: NextAuthOptions = {
       await authService().logout(token.accessToken);
     },
   },
-  debug: process.env.NODE_ENV === "development",
-};
+});
 
 async function refreshAccessToken(token: JWT) {
   try {

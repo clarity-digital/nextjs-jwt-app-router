@@ -11,7 +11,7 @@ type Props = {
 
 async function fetchServer({ method = "GET", url, body = "" }: Props) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions());
 
     const response = await fetch(url.toString(), {
       method: method,
@@ -35,11 +35,11 @@ async function fetchServer({ method = "GET", url, body = "" }: Props) {
       }
 
       if (error.status === 409) {
-        return redirect("/");
+        return redirect("/verify-email");
       }
     }
 
-    throw new Error("fetchServer failed", { cause: error });
+    throw new Error("Failed to fetch data from the server", { cause: error });
   }
 }
 
