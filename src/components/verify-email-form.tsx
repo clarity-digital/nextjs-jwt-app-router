@@ -2,44 +2,38 @@
 
 import fetchClient from "@/lib/fetch-client";
 import { useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function VerifyEmailForm() {
-  const { data: session, status } = useSession();
+  const router = useRouter();
+  const { update } = useSession();
+  const searchParams = useSearchParams();
 
-  async function sendVerificationLink() {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
     try {
+      const url = searchParams.get("url");
+      const signature = searchParams.get("signature");
+      const pathname = `/api/verify-email/${url}&signature=${signature}`;
       const response = await fetchClient({
-        method: "POST",
-        url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/email/verification-notification",
+        url: process.env.NEXT_PUBLIC_BACKEND_API_URL + pathname,
       });
 
       if (!response.ok) {
         throw response;
       }
+
+      await update({ type: "MANUAL" });
+      router.push("/dashboard");
     } catch (error) {
-      throw new Error("Could not send email verification request");
+      throw new Error("Could not verify email", { cause: error });
     }
   }
 
-  if (status === "loading") {
-    return <>...</>;
-  }
-
-  if (session?.user?.email_verified_at) {
-    return <p>Your email is verified</p>;
-  }
-
   return (
-    <>
-      <h1>client session</h1>
-      <pre>{JSON.stringify(session, null, 2)}</pre>
-
-      <button
-        type="button"
-        onClick={sendVerificationLink}
-      >
-        Send me a verification link
-      </button>
-    </>
+    <form onSubmit={handleSubmit}>
+      <button type="submit">Verify</button>
+    </form>
   );
 }

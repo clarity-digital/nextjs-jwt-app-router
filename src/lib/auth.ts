@@ -1,15 +1,10 @@
 import jwt from "@/helpers/jwt";
 import authService from "@/services/auth";
-
 import type { NextAuthOptions, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-type CallbackOptions = {
-  refreshUser?: boolean;
-};
-
-export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions => ({
+export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
@@ -57,6 +52,17 @@ export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions 
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        if (session.type === "MANUAL") {
+          const response = await authService().getUser(token.accessToken);
+          const user = await response.json();
+
+          return { ...token, ...session, ...user };
+        }
+
+        return { ...token, ...session };
+      }
+
       if (user) {
         return { ...token, ...user };
       }
@@ -74,20 +80,6 @@ export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions 
         return await refreshAccessToken(token);
       }
 
-      if (trigger === "update" || callbackOptions?.refreshUser) {
-        console.log("here");
-        const response = await authService().getUser(token.accessToken);
-
-        if (!response.ok) {
-          throw response;
-        }
-
-        const user = await response.json();
-        console.log(user);
-
-        return { ...token, ...session, ...user };
-      }
-
       return token;
     },
     async session({ session, token }) {
@@ -100,8 +92,6 @@ export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions 
       session.user.email = token.email || "";
       session.user.email_verified_at = token.email_verified_at;
 
-      console.log(session);
-
       return session;
     },
   },
@@ -110,7 +100,7 @@ export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions 
       await authService().logout(token.accessToken);
     },
   },
-});
+};
 
 async function refreshAccessToken(token: JWT) {
   try {

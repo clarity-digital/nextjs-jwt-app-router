@@ -18,8 +18,8 @@ export default function UpdateUserForm() {
         throw response;
       }
 
-      await update();
-      await fetch(process.env.NEXT_PUBLIC_VERCEL_URL + "/api/auth/session?refreshUser=true");
+      const user = await response.json();
+      await update(user);
     } catch (error) {
       if (error instanceof Response) {
         const response = await error.json();

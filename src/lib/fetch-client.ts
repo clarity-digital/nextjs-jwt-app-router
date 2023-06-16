@@ -34,7 +34,7 @@ async function fetchClient({ method = "GET", url, body = "", token }: Props) {
       }
 
       if (error.status === 409) {
-        window.location.href = "/verify-email";
+        window.location.href = "/request-email-verification";
       }
 
       throw error;

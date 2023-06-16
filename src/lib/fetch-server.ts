@@ -11,7 +11,7 @@ type Props = {
 
 async function fetchServer({ method = "GET", url, body = "" }: Props) {
   try {
-    const session = await getServerSession(authOptions());
+    const session = await getServerSession(authOptions);
 
     const response = await fetch(url.toString(), {
       method: method,
@@ -35,7 +35,7 @@ async function fetchServer({ method = "GET", url, body = "" }: Props) {
       }
 
       if (error.status === 409) {
-        return redirect("/verify-email");
+        return redirect("/request-email-verification");
       }
     }
 
