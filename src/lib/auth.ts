@@ -6,7 +6,7 @@ import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 type CallbackOptions = {
-  forceRefresh?: boolean;
+  refreshUser?: boolean;
 };
 
 export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions => ({
@@ -57,22 +57,6 @@ export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions 
   ],
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      if (trigger === "update" || callbackOptions?.forceRefresh) {
-        try {
-          const response = await authService().getUser(token.accessToken);
-
-          if (!response.ok) {
-            throw response;
-          }
-
-          const user = await response.json();
-
-          return { ...token, ...session, ...user };
-        } catch (error) {
-          return { ...token, ...session };
-        }
-      }
-
       if (user) {
         return { ...token, ...user };
       }
@@ -86,11 +70,25 @@ export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions 
       const currentUnixTimestamp = Math.floor(Date.now() / 1000);
       const accessTokenHasExpired = currentUnixTimestamp > accessTokenExpires;
 
-      if (!accessTokenHasExpired) {
-        return token;
+      if (accessTokenHasExpired) {
+        return await refreshAccessToken(token);
       }
 
-      return await refreshAccessToken(token);
+      if (trigger === "update" || callbackOptions?.refreshUser) {
+        console.log("here");
+        const response = await authService().getUser(token.accessToken);
+
+        if (!response.ok) {
+          throw response;
+        }
+
+        const user = await response.json();
+        console.log(user);
+
+        return { ...token, ...session, ...user };
+      }
+
+      return token;
     },
     async session({ session, token }) {
       if (token.error) {
@@ -101,6 +99,8 @@ export const authOptions = (callbackOptions?: CallbackOptions): NextAuthOptions 
       session.user.name = token.name || "";
       session.user.email = token.email || "";
       session.user.email_verified_at = token.email_verified_at;
+
+      console.log(session);
 
       return session;
     },

@@ -6,9 +6,7 @@ import { useSession } from "next-auth/react";
 export default function VerifyEmailForm() {
   const { data: session, status } = useSession();
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
+  async function sendVerificationLink() {
     try {
       const response = await fetchClient({
         method: "POST",
@@ -32,8 +30,16 @@ export default function VerifyEmailForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <button type="submit">Send me a verification link</button>
-    </form>
+    <>
+      <h1>client session</h1>
+      <pre>{JSON.stringify(session, null, 2)}</pre>
+
+      <button
+        type="button"
+        onClick={sendVerificationLink}
+      >
+        Send me a verification link
+      </button>
+    </>
   );
 }

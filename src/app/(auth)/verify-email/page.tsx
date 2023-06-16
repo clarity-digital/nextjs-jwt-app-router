@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default async function Page({ searchParams }: Props) {
-  const session = await getServerSession(authOptions());
+  const session = await getServerSession(authOptions({ refreshUser: true }));
 
   if (session && session?.user?.email_verified_at) {
     redirect("/dashboard");
@@ -25,7 +25,7 @@ export default async function Page({ searchParams }: Props) {
       {isVerified ? (
         <>
           <p>Email successfully verified</p>
-          <Link href="/dashboard">To dashboard</Link>
+          <Link href="/dashboard">Navigate to dashboard</Link>
         </>
       ) : (
         <VerifyEmailForm />
@@ -49,7 +49,7 @@ async function verifyEmail({ searchParams }: Props) {
       throw response;
     }
 
-    await fetch("/api/auth/session?refresh=true");
+    await fetch(process.env.NEXT_PUBLIC_VERCEL_URL + "/api/auth/session?refreshUser=true");
     return response.ok;
   } catch (error) {
     throw new Error("Could not verify email", { cause: error });
