@@ -57,7 +57,7 @@ export const authOptions: NextAuthOptions = {
           const response = await authService().getUser(token.accessToken);
           const user = await response.json();
 
-          return { ...token, ...session, ...user };
+          return { ...token, ...user };
         }
 
         return { ...token, ...session };
