@@ -10,11 +10,11 @@ export function SignInButton() {
     return <>...</>;
   }
 
-  if (status === "authenticated") {
-    return <Link href="/dashboard">{session?.user?.name}</Link>;
+  if (!session) {
+    return <Link href="/login">Login</Link>;
   }
 
-  return <Link href="/login">Sign in</Link>;
+  return <Link href="/dashboard">{session?.user?.name}</Link>;
 }
 
 export function SignOutButton() {

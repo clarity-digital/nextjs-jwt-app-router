@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
@@ -19,22 +20,24 @@ export default function LoginForm() {
 
   return (
     <>
-      <form onSubmit={(event) => handleSubmit(event)}>
-        <label>Email</label>
-        <input
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
+        <Input
+          id="email"
           name="email"
           type="email"
-          defaultValue="sjors@avocado-media.nl"
+          defaultValue="john@avocado-media.nl"
         />
 
-        <label>Password</label>
-        <input
+        <label htmlFor="password">Password</label>
+        <Input
+          id="password"
           name="password"
           type="password"
           defaultValue="password"
         />
 
-        <button type="submit">Sign in</button>
+        <button type="submit">Login</button>
       </form>
 
       <FormError error={error} />

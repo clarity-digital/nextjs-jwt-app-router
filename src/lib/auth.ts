@@ -1,5 +1,5 @@
 import jwt from "@/helpers/jwt";
-import authService from "@/services/authService";
+import authService from "@/services/auth";
 import type { NextAuthOptions, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -51,7 +51,18 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        if (session.type === "MANUAL") {
+          const response = await authService().getUser(token.accessToken);
+          const user = await response.json();
+
+          return { ...token, ...user };
+        }
+
+        return { ...token, ...session };
+      }
+
       if (user) {
         return { ...token, ...user };
       }
@@ -65,11 +76,11 @@ export const authOptions: NextAuthOptions = {
       const currentUnixTimestamp = Math.floor(Date.now() / 1000);
       const accessTokenHasExpired = currentUnixTimestamp > accessTokenExpires;
 
-      if (!accessTokenHasExpired) {
-        return token;
+      if (accessTokenHasExpired) {
+        return await refreshAccessToken(token);
       }
 
-      return await refreshAccessToken(token);
+      return token;
     },
     async session({ session, token }) {
       if (token.error) {
@@ -77,6 +88,9 @@ export const authOptions: NextAuthOptions = {
       }
 
       session.accessToken = token.accessToken;
+      session.user.name = token.name || "";
+      session.user.email = token.email || "";
+      session.user.email_verified_at = token.email_verified_at;
 
       return session;
     },
@@ -86,7 +100,6 @@ export const authOptions: NextAuthOptions = {
       await authService().logout(token.accessToken);
     },
   },
-  debug: process.env.NODE_ENV === "development",
 };
 
 async function refreshAccessToken(token: JWT) {
@@ -101,7 +114,7 @@ async function refreshAccessToken(token: JWT) {
     return {
       ...token,
       accessToken: refreshedAccessToken.access_token,
-      accessTokenExpires: exp,
+      exp,
     };
   } catch (error) {
     return {

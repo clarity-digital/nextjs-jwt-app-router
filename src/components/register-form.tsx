@@ -1,6 +1,7 @@
 "use client";
 
-import authService from "@/services/authService";
+import { Input } from "@/components/ui/input";
+import authService from "@/services/auth";
 import { signIn } from "next-auth/react";
 
 export default function RegisterForm() {
@@ -41,30 +42,34 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={(event) => handleSubmit(event)}>
-      <label>name</label>
-      <input
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="name">Name</label>
+      <Input
+        id="name"
         name="name"
         type="text"
         defaultValue="John Doe"
       />
 
-      <label>Email</label>
-      <input
+      <label htmlFor="email">Email</label>
+      <Input
+        id="email"
         name="email"
         type="email"
         defaultValue="john@avocado-media.nl"
       />
 
-      <label>Password</label>
-      <input
+      <label htmlFor="password">Password</label>
+      <Input
+        id="password"
         name="password"
         type="password"
         defaultValue="password"
       />
 
-      <label>Password confirmation</label>
-      <input
+      <label htmlFor="password_confirmation">Password confirmation</label>
+      <Input
+        id="password_confirmation"
         name="password_confirmation"
         type="password"
         defaultValue="password"
