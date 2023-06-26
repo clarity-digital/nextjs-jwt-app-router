@@ -25,6 +25,7 @@ export default function VerifyEmailForm() {
       }
 
       await update({ type: "MANUAL" });
+
       router.push("/dashboard");
     } catch (error) {
       throw new Error("Could not verify email", { cause: error });

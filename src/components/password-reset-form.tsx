@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import authService from "@/services/auth";
+import fetchClient from "@/lib/fetch-client";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function PasswordResetForm() {
@@ -15,7 +15,11 @@ export default function PasswordResetForm() {
       const formData = new FormData(event.currentTarget);
       formData.set("token", searchParams.get("token") || "");
 
-      const response = await authService().passwordReset(formData);
+      const response = await fetchClient({
+        method: "POST",
+        url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/reset-password",
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
 
       if (!response.ok) {
         throw response;

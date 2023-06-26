@@ -1,13 +1,13 @@
 import { getSession, signOut } from "next-auth/react";
 
-type Props = {
+interface fetchClientProps {
   method?: string;
   url: string;
   body?: string;
   token?: string;
-};
+}
 
-async function fetchClient({ method = "GET", url, body = "", token }: Props) {
+async function fetchClient({ method = "GET", url, body = "", token }: fetchClientProps) {
   try {
     const session = await getSession();
     const accessToken = token || session?.accessToken;

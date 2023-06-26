@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 
-function Error({ error, reset }: { error: Error; reset: () => void }) {
+interface ErrorProps {
+  error: Error;
+  reset: () => void;
+}
+
+function Error({ error, reset }: ErrorProps) {
   return (
     <>
       <h1>{error.message || "Something went wrong!"}</h1>

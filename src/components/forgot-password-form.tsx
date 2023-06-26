@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import authService from "@/services/auth";
+import fetchClient from "@/lib/fetch-client";
 
 export function ForgotPasswordForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -9,7 +9,11 @@ export function ForgotPasswordForm() {
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await authService().requestPasswordReset(formData);
+      const response = await fetchClient({
+        method: "POST",
+        url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/forgot-password",
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
 
       if (!response.ok) {
         throw response;

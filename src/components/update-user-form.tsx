@@ -1,18 +1,29 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import authService from "@/services/auth";
+import fetchClient from "@/lib/fetch-client";
+import type { User } from "next-auth";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-export default function UpdateUserForm() {
-  const { data: session, update } = useSession();
+interface UpdateUserFormProps {
+  user?: User;
+}
+
+export default function UpdateUserForm({ user }: UpdateUserFormProps) {
+  const router = useRouter();
+  const { update } = useSession();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await authService().updateUser(formData);
+      const response = await fetchClient({
+        method: "PATCH",
+        url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/user",
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
 
       if (!response.ok) {
         throw response;
@@ -20,6 +31,8 @@ export default function UpdateUserForm() {
 
       const user = await response.json();
       await update(user);
+
+      router.refresh();
     } catch (error) {
       if (error instanceof Response) {
         const response = await error.json();
@@ -46,7 +59,7 @@ export default function UpdateUserForm() {
         id="name"
         name="name"
         type="text"
-        defaultValue={session?.user?.name}
+        defaultValue={user?.name}
       />
 
       <label htmlFor="email">Email</label>
@@ -54,7 +67,7 @@ export default function UpdateUserForm() {
         id="email"
         name="email"
         type="email"
-        defaultValue={session?.user?.email}
+        defaultValue={user?.email}
       />
 
       <button type="submit">Update user</button>

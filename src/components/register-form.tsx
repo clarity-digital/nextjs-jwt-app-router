@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import authService from "@/services/auth";
+import fetchClient from "@/lib/fetch-client";
 import { signIn } from "next-auth/react";
 
 export default function RegisterForm() {
@@ -10,7 +10,11 @@ export default function RegisterForm() {
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await authService().register(formData);
+      const response = await fetchClient({
+        method: "POST",
+        url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/register",
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
 
       if (!response.ok) {
         throw response;

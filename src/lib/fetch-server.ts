@@ -3,13 +3,13 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import "server-only";
 
-type Props = {
+interface fetchServerProps {
   method?: string;
   url: string;
   body?: string;
-};
+}
 
-async function fetchServer({ method = "GET", url, body = "" }: Props) {
+async function fetchServer({ method = "GET", url, body = "" }: fetchServerProps) {
   try {
     const session = await getServerSession(authOptions);
 
