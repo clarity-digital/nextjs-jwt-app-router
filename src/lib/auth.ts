@@ -1,5 +1,5 @@
-import jwt from "@/helpers/jwt";
-import authService from "@/services/auth";
+import fetchClient from "@/lib/fetch-client";
+import { jwt } from "@/lib/utils";
 import type { NextAuthOptions, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -27,7 +27,11 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const response = await authService().login(credentials);
+          const response = await fetchClient({
+            method: "POST",
+            url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/login",
+            body: JSON.stringify(credentials),
+          });
 
           if (!response.ok) {
             throw response;
@@ -54,7 +58,10 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update") {
         if (session.type === "MANUAL") {
-          const response = await authService().getUser(token.accessToken);
+          const response = await fetchClient({
+            url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/user",
+            token: token.accessToken,
+          });
           const user = await response.json();
 
           return { ...token, ...user };
@@ -97,14 +104,22 @@ export const authOptions: NextAuthOptions = {
   },
   events: {
     async signOut({ token }) {
-      await authService().logout(token.accessToken);
+      await fetchClient({
+        method: "POST",
+        url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/logout",
+        token: token.accessToken,
+      });
     },
   },
 };
 
 async function refreshAccessToken(token: JWT) {
   try {
-    const response = await authService().refresh(token.accessToken);
+    const response = await fetchClient({
+      method: "POST",
+      url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/refresh",
+      token: token.accessToken,
+    });
 
     if (!response.ok) throw response;
 

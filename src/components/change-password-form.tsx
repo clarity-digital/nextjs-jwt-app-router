@@ -1,7 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import authService from "@/services/auth";
+import fetchClient from "@/lib/fetch-client";
 
 export function ChangePasswordForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -9,7 +9,11 @@ export function ChangePasswordForm() {
 
     try {
       const formData = new FormData(event.currentTarget);
-      const response = await authService().changePassword(formData);
+      const response = await fetchClient({
+        method: "PATCH",
+        url: process.env.NEXT_PUBLIC_BACKEND_API_URL + "/api/user/change-password",
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
 
       if (!response.ok) {
         throw response;

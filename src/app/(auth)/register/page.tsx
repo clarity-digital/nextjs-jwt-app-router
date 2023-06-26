@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <main>
+    <>
       <h1>Register</h1>
 
       <RegisterForm />
@@ -13,6 +13,6 @@ export default function Page() {
           <Link href="/login">Login</Link>
         </li>
       </ul>
-    </main>
+    </>
   );
 }

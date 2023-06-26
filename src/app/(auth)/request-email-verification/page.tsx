@@ -28,12 +28,12 @@ export default async function Page() {
   }
 
   return (
-    <main>
+    <>
       <h1>Verify email</h1>
 
       <form action={sendVerificationLink}>
         <button type="submit">Send me a verification link</button>
       </form>
-    </main>
+    </>
   );
 }
