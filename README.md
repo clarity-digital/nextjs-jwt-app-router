@@ -6,7 +6,7 @@ This repository contains a [Next.js](https://nextjs.org/) boilerplate with the n
 
 ## Laravel backend
 
-We created a [Laravel REST API](https://laravel.com/) inspired by Laravel Breeze. You can find the
+We created a [Laravel](https://laravel.com/) REST API inspired by Laravel Breeze. You can find the
 repository [here](https://github.com/avocado-media/laravel-jwt-rest-api).
 
 ## Features
