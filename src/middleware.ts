@@ -16,12 +16,14 @@ export default withAuth(
       return NextResponse.redirect(redirectUrl);
     }
 
-    if (token && !token.email_verified_at && !isVerifyRoute) {
-      return NextResponse.redirect(new URL("/request-email-verification", request.url));
-    }
+    if (token) {
+      if (!token.email_verified_at && !isVerifyRoute) {
+        return NextResponse.redirect(new URL("/request-email-verification", request.url));
+      }
 
-    if (token && (isIndexpage || isGuestRoute || isVerifyRoute)) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      if (isIndexpage || isGuestRoute || isVerifyRoute) {
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
     }
   },
   {
