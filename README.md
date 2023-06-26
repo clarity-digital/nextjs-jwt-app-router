@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-This repository contains a [Next.js](https://nextjs.org/) with the new App Router paradigm and JWT authentication using a Laravel REST API.
+This repository contains a [Next.js](https://nextjs.org/) boilerplate with the new App Router paradigm and JWT authentication using a Laravel REST API.
 
 ## Laravel backend
 
@@ -11,11 +11,7 @@ repository [here](https://github.com/avocado-media/laravel-jwt-rest-api).
 
 ## Features
 
-- JWT authentication with [NextAuth.js](https://next-auth.js.org/)
-  - Login
-  - Register
-  - Password reset
-  - Email verification
+- JWT authentication with [NextAuth.js](https://next-auth.js.org/) (login, register, password reset, email verification)
 - Profile updating
 - Password changing
 - TypeScript
