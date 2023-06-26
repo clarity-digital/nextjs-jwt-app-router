@@ -1,6 +1,4 @@
-<!-- Update header image -->
-
-<img width="800" alt="GitHub README banner_ JWT Laravel JWT REST API" src="https://github.com/avocado-media/laravel-jwt-rest-api/assets/32078923/30f5cd6c-d352-4e79-8bd1-7cb5945d3172">
+<img width="800" alt="GitHub README banner_ Next App Router" src="[https://github.com/avocado-media/laravel-jwt-rest-api/assets/32078923/30f5cd6c-d352-4e79-8bd1-7cb5945d3172](https://github.com/avocado-media/nextjs-jwt-app-router/assets/45365598/9a6466e6-4ba7-42e4-bdd3-1c3ffade37cb)">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
