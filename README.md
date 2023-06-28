@@ -1,4 +1,5 @@
-<img width="800" alt="GitHub README banner_ Next App Router" src="https://github.com/avocado-media/nextjs-jwt-app-router/assets/45365598/9a6466e6-4ba7-42e4-bdd3-1c3ffade37cb">
+<img width="800" alt="GitHub README banner_ Next App Router" src="https://github.com/avocado-media/nextjs-jwt-app-router/assets/32078923/3de51fd3-4c29-4010-9e5d-46d37d00e166">
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
