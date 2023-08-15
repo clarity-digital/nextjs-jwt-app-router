@@ -21,7 +21,7 @@ export default withAuth(
         return NextResponse.redirect(new URL("/request-email-verification", request.url));
       }
 
-      if (isIndexpage || isGuestRoute) {
+      if ((isIndexpage || isGuestRoute || isVerifyRoute) && token.email_verified_at) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
       }
     }
