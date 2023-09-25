@@ -1,6 +1,5 @@
 <img width="800" alt="GitHub README banner_ Next App Router" src="https://github.com/avocado-media/nextjs-jwt-app-router/assets/32078923/3de51fd3-4c29-4010-9e5d-46d37d00e166">
 
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 This repository contains a [Next.js](https://nextjs.org/) boilerplate with the new App Router paradigm and JWT authentication using a Laravel REST API.
@@ -21,7 +20,8 @@ repository [here](https://github.com/avocado-media/laravel-jwt-rest-api).
 
 1. `npm install`
 2. `cp .env.example .env.local`
-3. `npm run dev`
+3. In .env.local, add a value for [NEXTAUTH_SECRET](https://next-auth.js.org/configuration/options#secret).
+4. `npm run dev`
 
 ## Authentication
 
