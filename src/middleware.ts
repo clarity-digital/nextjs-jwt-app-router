@@ -17,6 +17,10 @@ export default withAuth(
     }
 
     if (token) {
+      if (!token.email_verified_at && isVerifyRoute) {
+        return;
+      }
+
       if (!token.email_verified_at && !isVerifyRoute) {
         return NextResponse.redirect(new URL("/request-email-verification", request.url));
       }
