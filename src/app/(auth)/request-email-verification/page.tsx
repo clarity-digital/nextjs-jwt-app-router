@@ -27,16 +27,11 @@ export default async function Page() {
     }
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    sendVerificationLink();
-  }
-
   return (
     <>
       <h1>Verify email</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form action={sendVerificationLink}>
         <button type="submit">Send me a verification link</button>
       </form>
     </>
